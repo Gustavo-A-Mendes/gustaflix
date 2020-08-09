@@ -29,7 +29,10 @@ function CadastroCategoria() {
   }
 
   useEffect(() => {
-    const URL_TOP = 'http://localhost:8080/categorias';
+    const localHost = 'http://localhost:8080/categorias';
+    const URL_TOP = window.location.hostname.includes(localHost)
+      ? 'http://localhost:8080/categorias'
+      : 'https://gustaflixapp.herokuapp.com/categorias';
     // E a Ju ama variáveis
     fetch(URL_TOP)
       .then(async (respostaDoServidor) => {
