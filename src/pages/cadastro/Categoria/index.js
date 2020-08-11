@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
 
 function CadastroCategoria() {
   const valoresIniciais = {
@@ -10,27 +11,13 @@ function CadastroCategoria() {
     descricao: '',
     cor: '',
   };
+
+  const { handleChange, values, clearForm } = useForm(valoresIniciais);
+
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
-
-  // chave: nome, descrição, bla, bli
-  function setValue(chave, valor) {
-    setValues({
-      ...values,
-      [chave]: valor, // nome: 'valor'
-    });
-  }
-
-  function handleChange(infosDoEvento) {
-    setValue(
-      infosDoEvento.target.getAttribute('name'),
-      infosDoEvento.target.value,
-    );
-  }
 
   useEffect(() => {
-    const localHost = 'http://localhost:8080/categorias';
-    const URL_TOP = window.location.hostname.includes(localHost)
+    const URL_TOP = window.location.hostname.includes('localhost')
       ? 'http://localhost:8080/categorias'
       : 'https://gustaflixapp.herokuapp.com/categorias';
     // E a Ju ama variáveis
@@ -41,6 +28,7 @@ function CadastroCategoria() {
           ...resposta,
         ]);
       });
+
     // setTimeout(() => {
     //   setCategorias([
     //     ...categorias,
@@ -58,9 +46,7 @@ function CadastroCategoria() {
     //     },
     //   ]);
     // }, 4 * 1000);
-  }, [
-    values.nome,
-  ]);
+  }, []);
 
   return (
     <PageDefault>
@@ -76,14 +62,14 @@ function CadastroCategoria() {
           values,
         ]);
 
-        setValues(valoresIniciais);
+        clearForm(valoresIniciais);
       }}
       >
 
         <FormField
           label="Nome da Categoria"
-          type="text"
           name="nome"
+          type="text"
           value={values.nome}
           onChange={handleChange}
         />
@@ -98,8 +84,8 @@ function CadastroCategoria() {
 
         <FormField
           label="Cor"
-          type="color"
           name="cor"
+          type="color"
           value={values.cor}
           onChange={handleChange}
         />
@@ -118,7 +104,7 @@ function CadastroCategoria() {
       <ul>
         {categorias.map((categoria) => (
           <li key={`${categoria.titulo}`}>
-            {categoria.nome}
+            {categoria.titulo}
           </li>
         ))}
       </ul>
