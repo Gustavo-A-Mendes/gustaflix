@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 function useForm(valoresIniciais) {
   const [values, setValues] = useState(valoresIniciais);
 
-  // chave: nome, descrição, bla, bli
   function setValue(chave, valor) {
+    // chave: nome, descrição, bla, bli
     setValues({
       ...values,
       [chave]: valor, // nome: 'valor'
